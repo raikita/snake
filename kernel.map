@@ -1,0 +1,361 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/brickLayout.o
+LOAD build/interrupts.o
+LOAD build/jtag.o
+LOAD build/framebuffer.o
+LOAD build/gameOver.o
+LOAD build/textures.o
+LOAD build/boundaryTest.o
+LOAD build/drawpixel.o
+LOAD build/math.o
+LOAD build/startScreen.o
+LOAD build/main.o
+LOAD build/textures2.o
+LOAD build/controllerdriver.o
+LOAD build/SNESDriver.o
+LOAD build/winscreen.o
+LOAD build/winScreenPic.o
+LOAD uart.o
+LOAD gpio.o
+
+.init           0x00008000        0xc
+ *(.init)
+ .init          0x00008000        0x4 build/interrupts.o
+ .init          0x00008004        0x4 build/main.o
+                0x00008004                _start
+ .init          0x00008008        0x4 build/SNESDriver.o
+
+.data           0x00009080    0x2522e
+ *(.data)
+ .data          0x00009080        0x4 build/brickLayout.o
+                0x00009080                snakeSpeed
+ .data          0x00009084       0x48 build/interrupts.o
+ .data          0x000090cc        0x0 build/jtag.o
+ *fill*         0x000090cc        0x4 3f3f3f3f
+ .data          0x000090d0       0x30 build/framebuffer.o
+                0x000090d0                FrameBufferInfo
+                0x000090f8                FrameBufferPointer
+ .data          0x00009100        0x0 build/gameOver.o
+ .data          0x00009100    0x23800 build/textures.o
+                0x00009100                num9
+                0x00009900                num8
+                0x0000a100                num7
+                0x0000a900                num6
+                0x0000b100                num5
+                0x0000b900                num4
+                0x0000c100                num3
+                0x0000c900                num2
+                0x0000d100                num1
+                0x0000d900                num0
+                0x0000e100                scoreLives
+                0x00013100                pauseQuit
+                0x00016100                pauseResume
+                0x00019100                door
+                0x00019900                pointer
+                0x0001a100                arrow
+                0x0001a900                special
+                0x0001b100                block
+                0x0001b900                apple
+                0x0001c100                wallBottom
+                0x0001c900                wallLeft
+                0x0001d100                wallRight
+                0x0001d900                wallTop
+                0x0001e100                brick
+                0x0001e900                cornerBLeft
+                0x0001f100                cornerBRight
+                0x0001f900                cornerTLeft
+                0x00020100                cornerTRight
+                0x00020900                red
+                0x00021100                SnakeGone
+                0x00021900                SnakeHead_U
+                0x00022100                SnakeHead_D
+                0x00022900                SnakeHead_L
+                0x00023100                SnakeHead_R
+                0x00023900                SnakeBody_U
+                0x00024100                SnakeBody_D
+                0x00024900                SnakeBody_L
+                0x00025100                SnakeBody_R
+                0x00025900                SnakeBody_UL
+                0x00026100                SnakeBody_UR
+                0x00026900                SnakeBody_DL
+                0x00027100                SnakeBody_DR
+                0x00027900                SnakeBody_LU
+                0x00028100                SnakeBody_LD
+                0x00028900                SnakeBody_RU
+                0x00029100                SnakeBody_RD
+                0x00029900                SnakeTail_U
+                0x0002a100                SnakeTail_D
+                0x0002a900                SnakeTail_L
+                0x0002b100                SnakeTail_R
+                0x0002b900                bgBlock
+                0x0002c100                wallPic
+ .data          0x0002c900        0x0 build/boundaryTest.o
+ .data          0x0002c900        0x1 build/drawpixel.o
+ .data          0x0002c901       0x13 build/math.o
+                0x0002c911                scoreArray
+                0x0002c913                livesArray
+ .data          0x0002c914        0x0 build/startScreen.o
+ *fill*         0x0002c914        0xc 3f3f3f3f
+ .data          0x0002c920     0x17f0 build/main.o
+                0x0002c920                hasApple
+                0x0002c930                lives
+                0x0002c934                score
+                0x0002c938                snakeLength
+                0x0002c93c                snakex
+                0x0002cd3c                snakey
+                0x0002d13c                grid
+ .data          0x0002e110        0x0 build/textures2.o
+ .data          0x0002e110        0x0 build/controllerdriver.o
+ .data          0x0002e110      0x196 build/SNESDriver.o
+ .data          0x0002e2a6        0x8 build/winscreen.o
+                0x0002e2a6                doorCoord
+ .data          0x0002e2ae        0x0 build/winScreenPic.o
+ .data          0x0002e2ae        0x0 uart.o
+ .data          0x0002e2ae        0x0 gpio.o
+ *.c.o(*)
+
+.igot.plt       0x0002e2b0        0x0
+ .igot.plt      0x00000000        0x0 build/brickLayout.o
+
+.text           0x0002e2b0   0x3023e8
+ *.c.o(.text)
+ *(.text)
+ .text          0x0002e2b0      0x44c build/brickLayout.o
+                0x0002e2b0                drawBrickMM
+                0x0002e328                wall
+                0x0002e384                drawWall
+                0x0002e3dc                drawBrick
+                0x0002e4e0                WallMaker
+                0x0002e624                checkPowerUp
+                0x0002e678                powerUpMake
+ .text          0x0002e6fc      0x13c build/interrupts.o
+                0x0002e6fc                mainInit
+                0x0002e740                initInterrupt
+                0x0002e780                InstallIntTable
+ .text          0x0002e838       0x8c build/jtag.o
+                0x0002e838                EnableJTAG
+ .text          0x0002e8c4      0x100 build/framebuffer.o
+                0x0002e8c4                InitFrameBuffer
+                0x0002e90c                DrawPixel2
+                0x0002e954                MailboxWrite
+                0x0002e984                MailboxRead
+ .text          0x0002e9c4   0x180000 build/gameOver.o
+                0x0002e9c4                GameOverScreen
+ .text          0x001ae9c4        0x0 build/textures.o
+ .text          0x001ae9c4      0x440 build/boundaryTest.o
+                0x001ae9c4                drawContents
+                0x001aea70                initializeGrid
+                0x001aeabc                getPixelXandY
+                0x001aead0                getColumnAndRow
+                0x001aeaf4                getIndex
+                0x001aeb18                getIndexContent
+                0x001aeb28                setIndexContent
+                0x001aeb34                Pause
+                0x001aed38                gameOver
+ .text          0x001aee04       0x94 build/drawpixel.o
+                0x001aee04                DrawPixel
+                0x001aee24                DrawBox
+ .text          0x001aee98      0x214 build/math.o
+                0x001aee98                atoi
+                0x001aeec8                itoa
+                0x001aef88                divide
+                0x001aefb8                randomNumber
+ .text          0x001af0ac   0x180000 build/startScreen.o
+                0x001af0ac                StartScreen
+ .text          0x0032f0ac      0xe94 build/main.o
+                0x0032f0d8                StartGame
+                0x0032f32c                drawQuit
+                0x0032f334                drawBG
+ .text          0x0032ff40        0x0 build/textures2.o
+ .text          0x0032ff40      0x1f4 build/controllerdriver.o
+                0x0032ff40                Init_GPIO
+                0x0032ffcc                Write_Latch
+                0x0033001c                Read_SNES
+                0x003300c4                Wait
+                0x003300e8                CheckPressed
+ .text          0x00330134      0x1c0 build/SNESDriver.o
+                0x0033013c                start
+                0x00330188                init_GPIO
+                0x003301d0                wait
+                0x003301f4                write_Latch
+                0x00330214                write_Clock
+                0x00330234                read_Data
+                0x00330264                read_SNES
+ .text          0x003302f4      0x118 build/winscreen.o
+                0x003302f4                winScreen
+                0x00330394                checkWon
+ .text          0x0033040c        0x0 build/winScreenPic.o
+ .text          0x0033040c      0x1b4 uart.o
+                0x0033040c                InitUART
+                0x003304cc                PutCharUART
+                0x003304e8                GetCharUART
+                0x00330504                WriteStringUART
+                0x00330530                ReadLineUART
+ .text          0x003305c0       0xd8 gpio.o
+                0x003305c0                GetGpioAddress
+                0x003305c8                SetGpioFunction
+                0x00330614                SetGpio
+                0x00330650                GetGpio
+OUTPUT(build/output.elf elf32-littlearm)
+
+.glue_7         0x00330698        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x00330698        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x00330698        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x00330698        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x00330698        0x0
+ .iplt          0x00000000        0x0 build/brickLayout.o
+
+.rel.dyn        0x00330698        0x0
+ .rel.iplt      0x00000000        0x0 build/brickLayout.o
+
+.bss            0x00330698        0x0
+ .bss           0x00330698        0x0 build/brickLayout.o
+ .bss           0x00330698        0x0 build/interrupts.o
+ .bss           0x00330698        0x0 build/jtag.o
+ .bss           0x00330698        0x0 build/framebuffer.o
+ .bss           0x00330698        0x0 build/gameOver.o
+ .bss           0x00330698        0x0 build/textures.o
+ .bss           0x00330698        0x0 build/boundaryTest.o
+ .bss           0x00330698        0x0 build/drawpixel.o
+ .bss           0x00330698        0x0 build/math.o
+ .bss           0x00330698        0x0 build/startScreen.o
+ .bss           0x00330698        0x0 build/main.o
+ .bss           0x00330698        0x0 build/textures2.o
+ .bss           0x00330698        0x0 build/controllerdriver.o
+ .bss           0x00330698        0x0 build/SNESDriver.o
+ .bss           0x00330698        0x0 build/winscreen.o
+ .bss           0x00330698        0x0 build/winScreenPic.o
+ .bss           0x00330698        0x0 uart.o
+ .bss           0x00330698        0x0 gpio.o
+
+.ARM.attributes
+                0x00000000       0x26
+ .ARM.attributes
+                0x00000000       0x26 build/brickLayout.o
+ .ARM.attributes
+                0x00000026       0x26 build/interrupts.o
+ .ARM.attributes
+                0x0000004c       0x26 build/jtag.o
+ .ARM.attributes
+                0x00000072       0x26 build/framebuffer.o
+ .ARM.attributes
+                0x00000098       0x26 build/gameOver.o
+ .ARM.attributes
+                0x000000be       0x26 build/textures.o
+ .ARM.attributes
+                0x000000e4       0x26 build/boundaryTest.o
+ .ARM.attributes
+                0x0000010a       0x26 build/drawpixel.o
+ .ARM.attributes
+                0x00000130       0x26 build/math.o
+ .ARM.attributes
+                0x00000156       0x26 build/startScreen.o
+ .ARM.attributes
+                0x0000017c       0x26 build/main.o
+ .ARM.attributes
+                0x000001a2       0x26 build/textures2.o
+ .ARM.attributes
+                0x000001c8       0x26 build/controllerdriver.o
+ .ARM.attributes
+                0x000001ee       0x26 build/SNESDriver.o
+ .ARM.attributes
+                0x00000214       0x26 build/winscreen.o
+ .ARM.attributes
+                0x0000023a       0x26 build/winScreenPic.o
+ .ARM.attributes
+                0x00000260       0x26 uart.o
+ .ARM.attributes
+                0x00000286       0x26 gpio.o
+
+.debug_line     0x00000000      0xd48
+ .debug_line    0x00000000      0x16b build/brickLayout.o
+ .debug_line    0x0000016b       0xc4 build/interrupts.o
+ .debug_line    0x0000022f       0x61 build/jtag.o
+ .debug_line    0x00000290       0x91 build/framebuffer.o
+ .debug_line    0x00000321      0x174 build/boundaryTest.o
+ .debug_line    0x00000495       0x68 build/drawpixel.o
+ .debug_line    0x000004fd       0xc2 build/math.o
+ .debug_line    0x000005bf      0x437 build/main.o
+ .debug_line    0x000009f6       0xcb build/controllerdriver.o
+ .debug_line    0x00000ac1       0xca build/SNESDriver.o
+ .debug_line    0x00000b8b       0x8e build/winscreen.o
+ .debug_line    0x00000c19       0xb6 uart.o
+ .debug_line    0x00000ccf       0x79 gpio.o
+
+.debug_info     0x00000000      0x5d8
+ .debug_info    0x00000000       0x79 build/brickLayout.o
+ .debug_info    0x00000079       0x74 build/interrupts.o
+ .debug_info    0x000000ed       0x72 build/jtag.o
+ .debug_info    0x0000015f       0x79 build/framebuffer.o
+ .debug_info    0x000001d8       0x7a build/boundaryTest.o
+ .debug_info    0x00000252       0x77 build/drawpixel.o
+ .debug_info    0x000002c9       0x72 build/math.o
+ .debug_info    0x0000033b       0x6e build/main.o
+ .debug_info    0x000003a9       0x7e build/controllerdriver.o
+ .debug_info    0x00000427       0x74 build/SNESDriver.o
+ .debug_info    0x0000049b       0x77 build/winscreen.o
+ .debug_info    0x00000512       0x63 uart.o
+ .debug_info    0x00000575       0x63 gpio.o
+
+.debug_abbrev   0x00000000       0xfe
+ .debug_abbrev  0x00000000       0x14 build/brickLayout.o
+ .debug_abbrev  0x00000014       0x12 build/interrupts.o
+ .debug_abbrev  0x00000026       0x14 build/jtag.o
+ .debug_abbrev  0x0000003a       0x14 build/framebuffer.o
+ .debug_abbrev  0x0000004e       0x14 build/boundaryTest.o
+ .debug_abbrev  0x00000062       0x14 build/drawpixel.o
+ .debug_abbrev  0x00000076       0x14 build/math.o
+ .debug_abbrev  0x0000008a       0x12 build/main.o
+ .debug_abbrev  0x0000009c       0x14 build/controllerdriver.o
+ .debug_abbrev  0x000000b0       0x12 build/SNESDriver.o
+ .debug_abbrev  0x000000c2       0x14 build/winscreen.o
+ .debug_abbrev  0x000000d6       0x14 uart.o
+ .debug_abbrev  0x000000ea       0x14 gpio.o
+
+.debug_aranges  0x00000000      0x1c0
+ .debug_aranges
+                0x00000000       0x20 build/brickLayout.o
+ .debug_aranges
+                0x00000020       0x30 build/interrupts.o
+ .debug_aranges
+                0x00000050       0x20 build/jtag.o
+ .debug_aranges
+                0x00000070       0x20 build/framebuffer.o
+ .debug_aranges
+                0x00000090       0x20 build/boundaryTest.o
+ .debug_aranges
+                0x000000b0       0x20 build/drawpixel.o
+ .debug_aranges
+                0x000000d0       0x20 build/math.o
+ .debug_aranges
+                0x000000f0       0x28 build/main.o
+ .debug_aranges
+                0x00000118       0x20 build/controllerdriver.o
+ .debug_aranges
+                0x00000138       0x28 build/SNESDriver.o
+ .debug_aranges
+                0x00000160       0x20 build/winscreen.o
+ .debug_aranges
+                0x00000180       0x20 uart.o
+ .debug_aranges
+                0x000001a0       0x20 gpio.o
+
+.debug_ranges   0x00000000       0x68
+ .debug_ranges  0x00000000       0x28 build/interrupts.o
+ .debug_ranges  0x00000028       0x20 build/main.o
+ .debug_ranges  0x00000048       0x20 build/SNESDriver.o

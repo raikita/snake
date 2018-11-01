@@ -1,0 +1,61 @@
+makeBrdr:
+	mov	r10, #0		//initialise counter
+	ldr	r2, =0xcd2e	//colour of Brdr
+	mov	r3, #31		//length of Brdr = 32
+	mov	r4, #31		//width of Brdr = 32
+	add	r1, #160	//start lower
+
+	mov	r9, #100	//draw left side vertical
+
+BrdrLoopV:
+	cmp	r10, #15		
+	moveq	r1, #260	//reset y
+	moveq	r9, #768	//draw right side vertical
+	moveq	r0, r9
+	ldreq	r2, =0xcd2e
+	cmp	r10, #29
+	bgt	doneBrdrV
+	
+drawBrdrV:
+	push	{r9}
+	push	{lr}
+	bl	DrawBox
+	pop	{lr}
+	pop	{r9}
+
+	add	r10, #1
+	mov	r0, r9		//reset x
+	b	BrdrLoopV
+
+doneBrdrV:
+	//start for horizontal lines
+	mov	r10, #0
+	ldr	r2, =0xcd2e
+	mov	r0, #133	//reset x
+	mov	r1, #260	//reset y, draw on top side
+	mov	r9, #260
+
+BrdrLoopH:
+	cmp	r10, #20
+	blt	drawBrdrH	//check if done drawing Brdrs
+				//vertical = 15, horizontal = 25
+	moveq	r0, #133	//reset x
+	moveq	r9, #708	//draw on bottom side
+	mov	r1, r9
+	ldreq	r2, =0xcd2e
+	cmp	r10, #39
+	bgt	doneBrdrH
+
+drawBrdrH:
+	push	{r9}
+	push	{lr}
+	bl	DrawBox
+	pop	{lr}
+	pop	{r9}
+
+	add	r10, #1
+	mov	r1, r9		//reset y
+	b	BrdrLoopH
+
+doneBrdrH:		
+	mov	pc, lr
